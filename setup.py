@@ -1,8 +1,12 @@
 import os
+
+
+
 cont = 'y'
 newProgram = open("main.py", "w")
 newProgram.write("import os\n")
 
+newProgram.write("import os\n")
 
 def getInitLoc():
     initLoc = input("Where would you like the files to move from?")
