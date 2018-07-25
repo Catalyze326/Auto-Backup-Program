@@ -44,7 +44,7 @@ def primary(folderA, folderB):
     for x in files:
         filetime = (os.path.getmtime(x))
         if os.path.isdir(x) == False:
-            if(realTime - filetime) > 300:
+            if(realTime - filetime) > 20:
                 copyfile(x, folderB + "/" + x)
         else:
                 if os.path.isdir(folderB + "/" + x) == False:
@@ -61,7 +61,7 @@ class main:
     try:
         while True:
             primary(folderA, folderB)
-            time.sleep(300)
+            time.sleep(20)
     except KeyboardInterrupt:
         primary(folderA, folderB)
         print("Goodbye World")
