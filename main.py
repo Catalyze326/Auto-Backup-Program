@@ -4,6 +4,9 @@ import shutil
 from shutil import copyfile
 import time
 
+# change it so that it reads from a file that has the paths of the src and dst folders and then it can do a dozen folders and change all the time and have no isstue
+from typing import Any, Union
+
 
 def getInitLoc():
     initLoc = input("Where would you like the files to move from?")
@@ -22,9 +25,9 @@ def listFolder(folderA):
 def listFiles(path):
     filelist = []
     for path, dirs, files in os.walk(path):
-        filelist.append(path)
+        # filelist.append(path)
         for f in files:
-            filelist.append(path + "/" + f)
+            filelist.append(f)
     return filelist
 
 
@@ -42,12 +45,16 @@ def primary(folderA, folderB):
     realTime = (time.time())
 
     for x in files:
-        filetime = (os.path.getmtime(x))
-        if os.path.isdir(x) == False:
+        print(x)
+        if os.path.exists(x):
+            filetime = (os.path.getmtime(x))
+        else:
+            copyfile(x, folderB + "/" + x)
+        if not os.path.isdir(x):
             if(realTime - filetime) > 20:
                 copyfile(x, folderB + "/" + x)
         else:
-                if os.path.isdir(folderB + "/" + x) == False:
+                if not os.path.isdir(folderB + x):
                     os.mkdir(folderB + "/" + x)
                 else:
                     print("Folder exists and therefore does not need to be created")
@@ -55,8 +62,8 @@ def primary(folderA, folderB):
 
 
 class main:
-    folderA = getInitLoc()
-    folderB = getFinLoc()
+    folderA = "/mnt/c/Users/caleb/Documents/GitHub/moveFilesAuto/A"
+    folderB = "/mnt/f/backupProgram"
 
     try:
         while True:
