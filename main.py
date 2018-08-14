@@ -1,6 +1,13 @@
 import os
 import time
-from shutil import copy
+import shutil
+import logging
+
+def copy(src, dst):
+    if os.path.isdir(dst):
+        dst = os.path.join(dst, os.path.basename(src))
+    shutil.copyfile(src, dst)
+
 
 #Does most of the work.
 def primary(src, dst):
@@ -69,19 +76,20 @@ def main():
     print(counter)
 
 
-try:
-    # Initial creation of the file that holds the src and dst locations
-    if not os.path.exists("inputs.txt"):
-        file = open("inputs.txt", "w")
-        cont = "y"
-        while cont[0].lower() == "y":
-            print("When giving an input do not put as \\ at the end of the source or destanation")
-            file.write(input("Where is the initial file location?\n") + "\n")
-            file.write(input("Where is the final file location?\n") + "\n")
-            cont = input("Would you like to put in another set of locations.\n")
-        file.close()
 
-    while True:
+while True:
+    try:
+        # Initial creation of the file that holds the src and dst locations
+        if not os.path.exists("inputs.txt"):
+            file = open("inputs.txt", "w")
+            cont = "y"
+            while cont[0].lower() == "y":
+                print("When giving an input do not put as \\ at the end of the source or destanation")
+                file.write(input("Where is the initial file location?\n") + "\n")
+                file.write(input("Where is the final file location?\n") + "\n")
+                cont = input("Would you like to put in another set of locations.\n")
+            file.close()
+
         # take apart the text file line by line
         with open("inputs.txt") as f:
             locations = f.readlines()
@@ -89,7 +97,9 @@ try:
         locations = [x.strip() for x in locations]
         main()
         # Runs every 5 min
-        time.sleep(300)
-# If the program is killed than it will run again to back everything up one last time
-except KeyboardInterrupt:
-    main()
+        time.sleep(10)
+    # If the program is killed than it will run again to back everything up one last time
+    except KeyboardInterrupt:
+        main()
+    except FileNotFoundError:
+        main()
