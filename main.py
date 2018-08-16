@@ -62,9 +62,10 @@ def listDirs(loc):
 # This is how I worked around having many src and dst files.
 # I have it written such that every other time the for loop runs it creates the src var
 # and the other time it creates the dst var and then after it is done it calls primary.
-def main():
+def main(locations):
     counter = 0
     for x in locations:
+        print(x)
         if counter % 2 == 0:
             src = x
             print(x)
@@ -73,13 +74,19 @@ def main():
             print(x)
             primary(src, dst)
         counter = counter + 1
-    print(counter)
-
+    # print(counter)
 
 
 while True:
     try:
         # Initial creation of the file that holds the src and dst locations
+
+        if not os.path.exists("seconds.txt"):
+            # while isinstance(lol, int):
+            seconds = open("seconds.txt", "w")
+            lol = input("How many seconds would you like there to be between each time the program checks the files?")
+            seconds.write(lol)
+            seconds.close()
         if not os.path.exists("inputs.txt"):
             file = open("inputs.txt", "w")
             cont = "y"
@@ -95,11 +102,19 @@ while True:
             locations = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         locations = [x.strip() for x in locations]
-        main()
+        main(locations)
+
+        with open("seconds.txt") as f:
+            lol = f.readlines()
+            for x in lol:
+                time.sleep(int(x))
         # Runs every 5 min
-        time.sleep(10)
+
     # If the program is killed than it will run again to back everything up one last time
     except KeyboardInterrupt:
-        main()
+        main(locations)
+        break
     except FileNotFoundError:
-        main()
+        main(locations)
+    except FileExistsError:
+        main(locations)
