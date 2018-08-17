@@ -28,7 +28,10 @@ def primary(src, dst):
     for x in listFiles(src):
         if os.path.exists(x):
             # print(x)
-            copy(x, dst + "\\" + x)
+            try:
+                copy(x, dst + "\\" + x)
+            except PermissionError:
+                print(x + " could not be transferred. It is being skipped.")
 
     # time.time() Gets the exact time in seconds using Unix Epoch Time what this means is that it gets the exact amount of seconds to many decimal places since Jan 1, 1970 00:00:00
     # os.path.getmtime(x) is the time that the file was last edited with the same format of an answer.
@@ -36,7 +39,10 @@ def primary(src, dst):
     for x in listFiles(src):
         if (os.path.getmtime(x) + 300) > time.time():
             # print(dst + "\\" + x)
-            copy(x, dst + "\\" + x)
+            try:
+                copy(x, dst + "\\" + x)
+            except PermissionError:
+                print(x + " could not be transferred. It is being skipped.")
 
 
 def listFiles(loc):
@@ -113,8 +119,11 @@ while True:
     # If the program is killed than it will run again to back everything up one last time
     except KeyboardInterrupt:
         main(locations)
+        print("Good Bye World")
         break
     except FileNotFoundError:
+        print("Error: File Not found " + locations)
         main(locations)
     except FileExistsError:
+        print("Error: Tried to copy file, but it already exists" + locations)
         main(locations)
