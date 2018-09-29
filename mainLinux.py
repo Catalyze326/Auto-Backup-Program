@@ -15,21 +15,21 @@ def primary(src, dst):
     # Make file tree
     if not os.path.exists(dst):
         os.mkdir(dst)
-    if not os.path.exists(dst + "\\" + src):
-        os.mkdir(dst + "\\" + src)
+    if not os.path.exists(dst + "//" + src):
+        os.mkdir(dst + "//" + src)
 
     for x in listDirs(src):
-        # print(dst + "\\" + x)
-        if not os.path.exists(dst + "\\" + x):
-            os.mkdir(dst + "\\" + x)
+        # print(dst + "//" + x)
+        if not os.path.exists(dst + "//" + x):
+            os.mkdir(dst + "//" + x)
 
     # Does the oraginal file transfer some reason you have to do xcopy
-    # if you want to do recursive copying because windows sucks also the \E dictates that it is recursive.
+    # if you want to do recursive copying because windows sucks also the /E dictates that it is recursive.
     for x in listFiles(src):
         if not os.path.exists(x):
             # print(x)
             try:
-                copy(x, dst + "\\" + x)
+                copy(x, dst + "//" + x)
             except PermissionError:
                 print(x + " could not be transferred. It is being skipped.")
 
@@ -38,9 +38,9 @@ def primary(src, dst):
     # I use these two numbers to check if any of the files need to be transferred because they have been edited in the last 5 min. Any other files do not need to be transferred.
     for x in listFiles(src):
         if (os.path.getmtime(x) + 300) > time.time():
-            # print(dst + "\\" + x)
+            # print(dst + "//" + x)
             try:
-                copy(x, dst + "\\" + x)
+                copy(x, dst + "//" + x)
             except PermissionError:
                 print(x + " could not be transferred. It is being skipped.")
 
@@ -49,9 +49,9 @@ def listFiles(loc):
     filelist = []
     for path, dirs, files in os.walk(loc):
         for d in dirs:
-            print(path + "\\" + d)
+            print(path + "//" + d)
         for f in files:
-            lol = (path + "\\" + f)
+            lol = (path + "//" + f)
             filelist.append(lol)
     return filelist
 
@@ -60,7 +60,7 @@ def listDirs(loc):
     dirlist = []
     for path, dirs, files in os.walk(loc):
         for d in dirs:
-            lol = (path + "\\" + d)
+            lol = (path + "//" + d)
             dirlist.append(lol)
     return dirlist
 
@@ -97,10 +97,10 @@ while True:
             file = open("inputs.txt", "w")
             cont = "y"
             while cont[0].lower() == "y":
-                print("When giving an input do not put as \\ at the end of the source or destanation")
-                file.write(input("Where is the initial file location?\n") + "\n")
-                file.write(input("Where is the final file location?\n") + "\n")
-                cont = input("Would you like to put in another set of locations.\n")
+                print("When giving an input do not put as // at the end of the source or destanation")
+                file.write(input("Where is the initial file location?/n") + "/n")
+                file.write(input("Where is the final file location?/n") + "/n")
+                cont = input("Would you like to put in another set of locations./n")
             file.close()
 
         # Runs every 5 min
@@ -113,7 +113,7 @@ while True:
         # take apart the text file line by line
         with open("inputs.txt") as f:
             locations = f.readlines()
-        # remove whitespace characters like `\n` at the end of each line
+        # remove whitespace characters like `/n` at the end of each line
         locations = [x.strip() for x in locations]
         try:
             main(locations)
