@@ -1,1 +1,14 @@
-Move files from one location on a pc to another automatically. This is intended to be used in a nas environment where you want to upload for example all your renders or dvr recordings to a nas, but they cannot be saved there natively either because it is not supported like in the case of windows media center or because you need faster ssd based storage for it to run normally and then this is a backup soloution that is far superior to windows backup if you want to do a spicific folder although you could do your entire drive.
+#Auto Backup Program
+
+To run the program run this command and than answer the questions it asks you.
+```
+python3 main.py
+```
+
+I suggest running this on startup to do this on Windows run this command in your run bar which you access by typing ctrl r
+
+```
+shell:startup
+```
+On linux running on startup is more annoying and depends on the ditstro you are using so Google it and if anyone who uses a Mac uses this I will be shocked because all of them use Time Machine.
+

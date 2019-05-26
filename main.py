@@ -1,8 +1,6 @@
 import os
 import time
 import shutil
-import logging
-
 
 def copy(src, dst):
     if os.path.isdir(dst):
